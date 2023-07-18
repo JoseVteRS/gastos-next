@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.input-focus {
+    @apply focus:outline-none focus:outline-1 focus:outline-dashed focus:border-b-0 focus:outline-black focus:outline-offset-0;
+}
+
+::selection {
+    @apply bg-yellow-300 p-5; 
+}

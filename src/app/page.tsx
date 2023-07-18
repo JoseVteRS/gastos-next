@@ -1,4 +1,6 @@
+import { NewEntry } from "@/ticket/components/new-entry"
 import { Entry } from "@prisma/client"
+import { TopBar } from "../components/top-bar"
 
 
 const getTotal = (entries: Entry[]) => {
@@ -40,7 +42,10 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen  overflow-hidden p-4">
-      <h1 className="text-2xl font-bold mb-4">Ticket (Julio)</h1>
+      
+      <TopBar />
+      <h1 className="text-xl font-bold mb-4">Ticket (Julio)</h1>
+      <NewEntry />
 
       {
         getEntriesByDay(entries).map((entry: any) => (

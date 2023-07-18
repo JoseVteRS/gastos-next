@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "Gasto",
+            "group": "Proyectos",
+            "database": "${workspaceFolder:gastos-next}/prisma/db/dev.db"
+        }
+    ]
+}
