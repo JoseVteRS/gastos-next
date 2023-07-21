@@ -16,16 +16,11 @@ export const NewEntry = () => {
             setLoading(true)
             const { concept, category, amount } = e.currentTarget
 
-            if (!sessionData && !sessionData?.user?.id) {
-                signIn()
-            }
-
+           
             const data = {
                 concept: concept.value,
                 category: category.value,
                 amount: parseFloat(amount.value),
-                userId: sessionData?.user?.id
-                 
             }
 
             const res = await fetch('/api/entry', {
@@ -33,7 +28,8 @@ export const NewEntry = () => {
                 body: JSON.stringify(data),
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                cache: 'no-cache',
             })
             setShow(false)
             return res.json()
@@ -49,10 +45,10 @@ export const NewEntry = () => {
 
     return (
         <>
-            <button onClick={() => setShow(old => !old)} >Crear</button>
+            <button className="border border-black px-2 py-1" onClick={() => setShow(old => !old)} >Crear</button>
             {
                 show && (
-                    <div className="mb-10 border p-5 border-black transition-all duration-75">
+                    <div className="mb-10 border p-5 border-black mt-5">
                         <form onSubmit={handleSave}>
                             <div className="md:flex items-center justify-start gap-10">
                                 <div className="mb-5">

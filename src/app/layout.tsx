@@ -1,7 +1,7 @@
-import { Providers } from '@/providers'
 import type { Metadata } from 'next'
 import { Courier_Prime } from 'next/font/google'
 import './globals.css'
+import AuthProvider from '@/auth/components/AuthProvider'
 
 const curier = Courier_Prime({ subsets: ['latin'], weight: ['400'] })
 
@@ -16,10 +16,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <Providers>
-      <html lang="en">
+    <AuthProvider>
+      <html lang="es">
         <body className={`${curier.className}`}>{children}</body>
       </html>
-    </Providers>
+    </AuthProvider>
   )
 }

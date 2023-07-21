@@ -1,81 +1,58 @@
+export const dynamic = 'force-dynamic'
+
 import { NewEntry } from "@/ticket/components/new-entry"
 import { Entry } from "@prisma/client"
 import { TopBar } from "../components/top-bar"
+import { getUserSessionServer } from "@/auth/actions/auth-actions"
+import { redirect } from "next/navigation"
+import prisma from "@/lib/prisma"
+import { DeleteTicket } from "@/ticket/components/delete-ticket"
 
-
-const getTotal = (entries: Entry[]) => {
-  return entries.reduce((acc, entry) => acc + entry.amount, 0).toFixed(2)
-}
-
-// Group by createdAt day and return an array of entries. The day will be the num day and name day of the week. Per example: 2021-05-01 -> 1 - Saturday
-const getEntriesByDay = (entries: Entry[]) => {
-
-  const entriesByDay = entries.reduce((acc: any, entry) => {
-    const date = new Date(entry.createdAt)
-    const day = date.getDate()
-    const nameDay = date.toLocaleString('es-ES', { weekday: 'long' })
-
-    if (!acc[day]) {
-      acc[day] = {
-        day,
-        nameDay,
-        entries: []
-      }
-    }
-
-    acc[day].entries.push(entry)
-
-    return acc
-  }, {})
-
-  return Object.values(entriesByDay)
-
-
-}
 
 const SALARY = 1070.62
 
 export default async function Home() {
-  const entries = await fetch('http://localhost:3000/api/entry', {
-    method: 'GET',
-  }).then(res => res.json())
+
+  const user = await getUserSessionServer()
+  if (!user) redirect('/api/auth/signin')
+
+  const entries = await prisma.entry.findMany({
+    where: { userId: user.id },
+    orderBy: { createdAt: 'desc' }
+  })
+
+
 
   return (
     <main className="min-h-screen  overflow-hidden p-4">
-      
+
       <TopBar />
       <h1 className="text-xl font-bold mb-4">Ticket (Julio)</h1>
       <NewEntry />
 
-      {
-        getEntriesByDay(entries).map((entry: any) => (
-          <div className="my-5" >
-            <div className="border-b mb-4 border-black border-dashed">
-              <span className="font-bold">Día {entry.day} </span>
-              <small className="capitalize block mb-1">{entry.nameDay}</small>
-            </div>
+      {!entries || entries.length === 0 && (<p className="mt-5 text-center">No hay gastos</p>)}
 
-            {
-              entry.entries.map((entry: Entry) => (
-                <div className="flex items-center justify-between">
-                  <div>
-                    <strong>{entry.concept}</strong> -- <span>{entry.category}</span>
-                  </div>
-                  <div>
-                    {entry.amount}
-                  </div>
+      <div className="mt-5 pt-5 border-t-2 border-black border-dashed" >
+        {
+          entries.map((entry: Entry) => (
+            <div key={entry.id} className="flex items-center justify-between">
+              <div className="flex gap-1 items-center">
+                <DeleteTicket id={entry.id} />
+                <div>
+                  <strong>{entry.concept}</strong> -- <span>{entry.category}</span>
                 </div>
-              ))
-            }
-          </div>
-        ))
-      }
+              </div>
 
-      <div className="border-t py-3 border-black border-double border-b-4 mb-5 flex items-start justify-end">
-        TOTAL: {getTotal(entries)}€
+              <div>
+                {entry.amount.toFixed(2)}€
+              </div>
+            </div>
+          ))
+
+        }
       </div>
 
-      NETO: {(SALARY - Number(getTotal(entries))).toFixed(2)}€
+
     </main>
   )
 }
