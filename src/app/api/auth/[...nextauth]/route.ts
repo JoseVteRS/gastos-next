@@ -6,6 +6,7 @@ import NextAuth, { NextAuthOptions } from 'next-auth';
 import { Adapter } from "next-auth/adapters";
 
 import GoogleProvider from "next-auth/providers/google";
+import { NextResponse } from "next/server";
 
 
 export const authOptions: NextAuthOptions = {
@@ -43,25 +44,34 @@ export const authOptions: NextAuthOptions = {
         },
 
         async jwt({ token, user, account, profile }) {
+      
             const dbUser = await prisma.user.findUnique({ where: { email: token.email ?? 'no-email' } });
-        
-            token.id = dbUser?.id ?? 0;
+
+            if (!dbUser) {
+                NextResponse.redirect('http://localhost:3000/api/auth/signin');
+            };
+
+            token.id = dbUser?.id ?? 'no-uuid';
 
             return token;
         },
 
         async session({ session, token, user }) {
 
-            if (session && session.user) {
+            if (session?.user) {
                 session.user.id = token.id;
             }
 
-            console.log(user)
-
             return session;
+
         }
 
-    }
+    },
+    pages: {
+        signIn: '/auth/signin',
+    },
+    debug: process.env.NODE_ENV === 'development' ? true : false,
+
 }
 
 
