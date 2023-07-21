@@ -1,16 +1,25 @@
+import { Entry } from "../interface/ticket.interface"
+import { DeleteTicket } from "./delete-ticket"
 
-export const ListItem = ({ item }) => {
-    const { title, category, price } = item
+interface Props {
+    entry: Entry
+}
+
+export const ListItem = ({ entry }: Props) => {
+
     return (
-        <li>
-            <div className="flex items-center justify-between">
+        <div key={entry.id} className="flex items-center justify-between">
+            <div className="flex gap-2 items-center">
+
+                <DeleteTicket id={entry.id} />
                 <div>
-                    <strong>{title}</strong> -- <span>{category}</span>
-                </div>
-                <div>
-                    {price}
+                    <strong>{entry.concept}</strong> -- <span>{entry.category}</span>
                 </div>
             </div>
-        </li>
+
+            <div>
+                {entry.amount.toFixed(2)}€
+            </div>
+        </div>
     )
 }

@@ -7,6 +7,7 @@ import { getUserSessionServer } from "@/auth/actions/auth-actions"
 import { redirect } from "next/navigation"
 import prisma from "@/lib/prisma"
 import { DeleteTicket } from "@/ticket/components/delete-ticket"
+import { ListItem } from "@/ticket/components/list-item"
 
 
 const SALARY = 1070.62
@@ -33,23 +34,7 @@ export default async function Home() {
       {!entries || entries.length === 0 && (<p className="mt-5 text-center">No hay gastos</p>)}
 
       <div className="mt-5 pt-5 border-t-2 border-black border-dashed" >
-        {
-          entries.map((entry: Entry) => (
-            <div key={entry.id} className="flex items-center justify-between">
-              <div className="flex gap-1 items-center">
-                <DeleteTicket id={entry.id} />
-                <div>
-                  <strong>{entry.concept}</strong> -- <span>{entry.category}</span>
-                </div>
-              </div>
-
-              <div>
-                {entry.amount.toFixed(2)}€
-              </div>
-            </div>
-          ))
-
-        }
+        {entries.map((entry: Entry) => <ListItem key={entry.id} entry={entry} />)}
       </div>
 
 
