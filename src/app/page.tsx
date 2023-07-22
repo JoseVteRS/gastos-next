@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic'
+// export const dynamic = 'force-dynamic'
 
 import { NewEntry } from "@/ticket/components/new-entry"
 import { Entry } from "@prisma/client"
@@ -6,7 +6,6 @@ import { TopBar } from "../components/top-bar"
 import { getUserSessionServer } from "@/auth/actions/auth-actions"
 import { redirect } from "next/navigation"
 import prisma from "@/lib/prisma"
-import { DeleteTicket } from "@/ticket/components/delete-ticket"
 import { ListItem } from "@/ticket/components/list-item"
 
 
@@ -28,7 +27,7 @@ export default async function Home() {
     <main className="min-h-screen  overflow-hidden p-4">
 
       <TopBar />
-      <h1 className="text-xl font-bold mb-4">Ticket (Julio)</h1>
+      <h1 className="text-xl font-bold mb-4">Ticket {new Date().getMonth()}</h1>
       <NewEntry />
 
       {!entries || entries.length === 0 && (<p className="mt-5 text-center">No hay gastos</p>)}
