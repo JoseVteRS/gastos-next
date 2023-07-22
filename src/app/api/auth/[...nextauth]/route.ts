@@ -48,7 +48,7 @@ export const authOptions: NextAuthOptions = {
             const dbUser = await prisma.user.findUnique({ where: { email: token.email ?? 'no-email' } });
 
             if (!dbUser) {
-                NextResponse.redirect('http://localhost:3000/api/auth/signin');
+                NextResponse.redirect('https://josevte.com/api/auth/signin');
             };
 
             token.id = dbUser?.id ?? 'no-uuid';
