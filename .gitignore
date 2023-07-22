@@ -6,7 +6,7 @@
 .pnp.js
 .env
 .env.production
-/prisma/db
+/prisma/db/*.db
 
 # testing
 /coverage
