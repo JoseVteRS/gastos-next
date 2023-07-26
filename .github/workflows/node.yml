@@ -13,6 +13,14 @@ jobs:
       matrix:
         node-version: [ 18.x ]
 
+    env:
+      DATABASE_URL: ${{secret.DATABASE_URL}}
+      GOOGLE_CLIENT_ID: ${{secret.GOOGLE_CLIENT_ID}}
+      GOOGLE_CLIENT_SECRET: ${{secret.GOOGLE_CLIENT_SECRET}}
+      NEXTAUTH_SECRET: ${{secret.NEXTAUTH_SECRET}}
+      NEXTAUTH_URL: ${{secret.NEXTAUTH_URL}}
+
+
     steps:
       - uses: actions/checkout@v3
 
@@ -31,3 +39,10 @@ jobs:
       - run: pnpm i
       - run: pnpm build --if-present
       - run: pm2 reload gastos
+        env: 
+          DATABASE_URL: ${{env.DATABASE_URL}}
+          GOOGLE_CLIENT_ID: ${{env.GOOGLE_CLIENT_ID}}
+          GOOGLE_CLIENT_SECRET: ${{env.GOOGLE_CLIENT_SECRET}}
+          NEXTAUTH_SECRET: ${{env.NEXTAUTH_SECRET}}
+          NEXTAUTH_URL: ${{env.NEXTAUTH_URL}}
+
