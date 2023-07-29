@@ -7,9 +7,8 @@ import { getUserSessionServer } from "@/auth/actions/auth-actions"
 import { redirect } from "next/navigation"
 import prisma from "@/lib/prisma"
 import { ListItem } from "@/ticket/components/list-item"
+import { getTotal } from "@/utils"
 
-
-const SALARY = 1070.62
 
 export default async function Home() {
 
@@ -21,12 +20,11 @@ export default async function Home() {
     orderBy: { createdAt: 'desc' }
   })
 
-
-
   return (
     <main className="min-h-screen  overflow-hidden p-4">
 
       <TopBar />
+
       <h1 className="text-xl font-bold mb-4">Ticket {new Date().getMonth()}</h1>
       <NewEntry />
 
@@ -34,6 +32,15 @@ export default async function Home() {
 
       <div className="mt-5 pt-5 border-t-2 border-black border-dashed" >
         {entries.map((entry: Entry) => <ListItem key={entry.id} entry={entry} />)}
+
+        {
+          entries.length > 0 && (
+            <div className="mt-10 p-3 border-black border-double border-t-4 ">
+              <p className="text-right">TOTAL: <span className="font-bold text-xl">{getTotal(entries)} €</span></p>
+            </div>
+          )
+        }
+
       </div>
 
 
