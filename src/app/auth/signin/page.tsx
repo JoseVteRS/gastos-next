@@ -4,7 +4,7 @@ import { signIn } from "next-auth/react";
 
 export default function SigninPage() {
   return (
-    <div className="h-screen grid place-content-center">
+    <div className="h-screen grid place-content-center px-5">
       <div className="mb-5">
         <h1 className="font-bold text-3xl">¡Hola!</h1>
         <p>Inicia sesión para empezar a registrar tus gastos</p>
