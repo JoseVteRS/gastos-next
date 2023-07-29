@@ -5,7 +5,6 @@ import { useState } from "react"
 
 
 export const NewEntry = () => {
-    const { data: sessionData } = useSession()
     const [loading, setLoading] = useState(false)
     const [show, setShow] = useState(false)
 

@@ -9,11 +9,11 @@ export const TopBar = () => {
 
 
     return (
-        <div className="mb-14 border-b-2 border-black border-dashed">
+        <div className="mb-5 border-b-2 border-black border-dashed ">
             {
                 data
                     ? (
-                        <div className="flex gap-2 items-center justify-between p-1">
+                        <div className="flex gap-2 items-center justify-between p-3">
                             <img src={data?.user?.image || ''} alt="" className="w-8 h-8 rounded-full" />
                             <div className="flex-grow">
 
